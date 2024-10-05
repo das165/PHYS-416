@@ -1,26 +1,27 @@
-steps = [1, -1];
-N = 4;  % Target position
-fpt = zeros(1, num_runs);  % Array to store the times
-tavg = 0;
+steps = [1, -1];  % Possible steps in the random walk
+N = 4;  %8 % Target position
+num_runs = 10;  % Total number of trials
+fpt = zeros(1, num_runs);  % Array to store the first passage times
+tavg = 0;  % Initialize the sum of times
 
-    for i = 1:1000  % Run 1000 trials for each simulation
-        x = 0;
-        t = 0;
-        while x ~= N
-            random_choice = steps(randi(2));
-            x = x + random_choice;
-            t = t + 1;
-        end
-        fpt(i) = t;
-        tavg = tavg + t;
-    end 
-    
+for i = 1:num_runs  % Run num_runs trials
+    x = 0;  
+    t = 0;  
+    while x ~= N  
+        random_choice = steps(randi(2));  
+        x = x + random_choice;  
+        t = t + 1;  
+    end
+    fpt(i) = t;  % Store the time taken to reach position N
+    tavg = tavg + t;  % Accumulate the time for averaging
+end 
 
-% Display histogram of all averages
+% Display histogram of first passage times
 figure;
-histogram(fpt); 
-title('Histogram of First Passage Time Averages');
+histogram(fpt, 5);  
+title('Histogram of First Passage Times');
 xlabel('First Passage Time');
 ylabel('Frequency');
 
-disp(tavg/1000);
+% Display the average time across all trials
+disp(tavg / num_runs);  
